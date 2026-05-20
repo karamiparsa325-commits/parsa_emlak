@@ -1,0 +1,16 @@
+node_modules/
+.env
+
+# Ignore the uploads folder by default — user-uploaded property images don't
+# belong in source control. Whitelist the design assets shipped with the repo.
+public/uploads/*
+!public/uploads/.gitkeep
+!public/uploads/hero-banner.png
+!public/uploads/villa1.jpg
+!public/uploads/villa2.jpg
+!public/uploads/villa3.jpg
+!public/uploads/villa4.jpg
+!public/uploads/villa5.jpg
+!public/uploads/house1.jpg
+!public/uploads/bungalow1.jpg
+!public/uploads/farmhouse1.jpg

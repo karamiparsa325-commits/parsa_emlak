@@ -1,6 +1,16 @@
 node_modules/
-backend/node_modules/
-.env
 backend/.env
-public/uploads/
-backend/public/uploads/
+
+# User-uploaded property images don't belong in git. Design assets shipped
+# with the repo are whitelisted by name in backend/.gitignore.
+backend/public/uploads/*
+!backend/public/uploads/.gitkeep
+!backend/public/uploads/hero-banner.png
+!backend/public/uploads/villa1.jpg
+!backend/public/uploads/villa2.jpg
+!backend/public/uploads/villa3.jpg
+!backend/public/uploads/villa4.jpg
+!backend/public/uploads/villa5.jpg
+!backend/public/uploads/house1.jpg
+!backend/public/uploads/bungalow1.jpg
+!backend/public/uploads/farmhouse1.jpg

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Parsa Emlak — İlan detayı" />
+  <title>İlan Detayı — Parsa Emlak</title>
+  <link rel="stylesheet" href="style.css?v=4" />
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/25/25694.png" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <header class="main-header" id="main-header">
+    <div style="display:flex;align-items:center">
+      <a href="/" style="display:flex;align-items:center;text-decoration:none;color:inherit">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Logo" class="site-logo" />
+        <h1>Parsa Emlak</h1>
+      </a>
+    </div>
+    <div class="header-actions">
+      <a href="/" class="btn btn-outline" style="padding:8px 16px;text-decoration:none">← Tüm İlanlar</a>
+    </div>
+  </header>
+
+  <main class="property-page" style="max-width:1100px;margin:120px auto 40px;padding:0 24px">
+    <div id="property-loading" style="text-align:center;padding:80px 0;color:var(--text-light)">
+      Yükleniyor...
+    </div>
+    <div id="property-content" style="display:none"></div>
+    <div id="property-error" style="display:none;text-align:center;padding:80px 0">
+      <h2>İlan bulunamadı</h2>
+      <p><a href="/">← Ana sayfaya dön</a></p>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-section"><h3>Ofisimiz</h3><p>Cumhuriyet Bulvarı, No: 123<br/>Alsancak / İZMİR</p></div>
+      <div class="footer-section"><h3>İletişim</h3><p>Tel: +90 232 123 45 67<br/>info@parsaemlak.com</p></div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Parsa Emlak.</div>
+  </footer>
+
+  <script src="property.js?v=2"></script>
+</body>
+</html>

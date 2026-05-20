@@ -1,558 +1,379 @@
 <!DOCTYPE html>
-<html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Parsa Emlak Pro</title>
-    <link rel="stylesheet" href="style.css" />
-    <style>
-      /* Giriş/Kayıt Modalı için Ek Stiller */
-      .auth-toggle {
-        cursor: pointer;
-        color: #2980b9;
-        text-decoration: underline;
-        margin-top: 10px;
-        display: block;
-        text-align: center;
-        font-size: 14px;
-      }
-      .user-badge {
-        background: #27ae60;
-        color: white;
-        padding: 5px 15px;
-        border-radius: 20px;
-        margin-right: 10px;
-        font-size: 14px;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="main-header">
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/25/25694.png"
-        alt="Parsa Emlak Logo"
-        class="site-logo"
-      />
+<html lang="tr" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Parsa Emlak — İzmir'in en güvenilir emlak danışmanlık platformu. Villa, daire, arsa ve ofis ilanları." />
+  <meta property="og:title" content="Parsa Emlak — Güvenilir Emlak Danışmanlığı" />
+  <meta property="og:description" content="Türkiye'nin en seçkin villa, daire ve arsa portföyü." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://parsaemlak.com" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://parsaemlak.com" />
+  <title>Parsa Emlak — Güvenilir Emlak Danışmanlığı</title>
+  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/25/25694.png" />
+  <link rel="manifest" href="manifest.json" />
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Parsa Emlak","description":"İzmir'in en güvenilir emlak danışmanlık platformu","address":{"@type":"PostalAddress","streetAddress":"Cumhuriyet Bulvarı, No: 123","addressLocality":"Alsancak","addressRegion":"İzmir","addressCountry":"TR"},"telephone":"+902321234567"}</script>
+</head>
+<body>
+  <header class="main-header" id="main-header">
+    <div style="display:flex;align-items:center">
+      <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Parsa Emlak Logo" class="site-logo" />
       <h1>Parsa Emlak</h1>
-
-      <div id="user-area" style="display: flex; align-items: center">
-        <button
-          onclick="openAuthModal()"
-          id="login-btn"
-          style="background: #34495e; color: white"
-        >
-          👤 Giriş / Kayıt
-        </button>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="lang-toggle" data-action="toggle-language" aria-label="Change language" title="EN/TR">TR</button>
+      <button class="icon-btn" id="theme-toggle" data-action="toggle-theme" aria-label="Toggle dark mode" title="Dark mode">🌙</button>
+      <div id="user-area">
+        <button data-action="open-auth" id="login-btn" class="btn btn-call" data-i18n="login">Giriş Yap</button>
       </div>
     </div>
+  </header>
 
-    <div id="auth-modal" class="modal">
-      <div class="modal-content" style="max-width: 400px">
-        <span class="close" onclick="closeAuthModal()">×</span>
+  <section class="hero-section">
+    <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
+    <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
+    <div class="hero-content">
+      <span class="hero-eyebrow" data-i18n="hero_eyebrow">İzmir · Premium Emlak Danışmanlığı</span>
+      <h2 data-i18n="hero_title">Hayalindeki Evi<br/>Bugün Keşfet</h2>
+      <p data-i18n="hero_subtitle">Türkiye'nin en seçkin villa, daire ve arsa portföyüne göz atın.</p>
+      <div class="hero-search">
+        <input type="text" id="hero-search-input" data-i18n-placeholder="search_placeholder" placeholder="Şehir, ilçe veya ilan adı ara..." data-action="hero-search-input" />
+        <button data-action="scroll-to-listings" data-i18n="search_btn">Ara</button>
+      </div>
+    </div>
+  </section>
 
-        <div id="login-section">
-          <h2 style="text-align: center">Giriş Yap</h2>
-          <div
-            class="form-container"
-            style="box-shadow: none; padding: 0; margin: 0"
-          >
-            <input id="login-user" placeholder="Kullanıcı Adı" />
-            <input id="login-pass" type="password" placeholder="Şifre" />
-            <button
-              onclick="loginUser()"
-              style="
-                width: 100%;
-                background: #27ae60;
-                color: white;
-                padding: 10px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-              "
-            >
-              Giriş Yap
-            </button>
-            <span class="auth-toggle" onclick="toggleAuthMode()"
-              >Hesabın yok mu? Kayıt Ol</span
-            >
-          </div>
+  <!-- CATEGORY QUICK-FILTERS -->
+  <section class="categories" data-reveal>
+    <div class="section-header section-header-tight">
+      <h2 data-i18n="cat_title">Kategoriye Göz At</h2>
+      <p data-i18n="cat_sub">Aradığınız emlak türünü seçin</p>
+    </div>
+    <div class="category-grid">
+      <button class="category-card" data-action="quick-category" data-type="Daire">
+        <span class="category-emoji">🏢</span>
+        <span class="category-label" data-i18n="cat_apt">Daire</span>
+      </button>
+      <button class="category-card" data-action="quick-category" data-type="Villa">
+        <span class="category-emoji">🏡</span>
+        <span class="category-label" data-i18n="cat_villa">Villa</span>
+      </button>
+      <button class="category-card" data-action="quick-category" data-type="Arsa">
+        <span class="category-emoji">🏞️</span>
+        <span class="category-label" data-i18n="cat_land">Arsa</span>
+      </button>
+      <button class="category-card" data-action="quick-category" data-type="Ofis">
+        <span class="category-emoji">🏬</span>
+        <span class="category-label" data-i18n="cat_office">Ofis</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- AUTH MODAL -->
+  <div id="auth-modal" class="modal" role="dialog" aria-modal="true" aria-label="Giriş">
+    <div class="modal-content" style="max-width:420px">
+      <span class="close" data-action="close-auth" aria-label="Kapat">&times;</span>
+      <div id="login-section">
+        <h2 style="font-family:'Playfair Display',serif;text-align:center;margin-bottom:24px;font-size:26px" data-i18n="login">Giriş Yap</h2>
+        <div class="form-container" style="box-shadow:none;padding:0;margin:0;border:none">
+          <input id="login-user" placeholder="Kullanıcı Adı" aria-label="Kullanıcı Adı" />
+          <input id="login-pass" type="password" placeholder="Şifre" aria-label="Şifre" />
+          <button data-action="login" class="btn btn-call" style="width:100%;padding:14px;font-size:15px" data-i18n="login">Giriş Yap</button>
+          <span class="auth-toggle" data-action="toggle-auth-mode" data-i18n="no_account">Hesabın yok mu? Kayıt Ol</span>
         </div>
-
-        <div id="register-section" style="display: none">
-          <h2 style="text-align: center">Yeni Üyelik</h2>
-          <div
-            class="form-container"
-            style="box-shadow: none; padding: 0; margin: 0"
-          >
-            <input id="reg-user" placeholder="Kullanıcı Adı Belirle" />
-            <input id="reg-pass" type="password" placeholder="Şifre Belirle" />
-            <button
-              onclick="registerUser()"
-              style="
-                width: 100%;
-                background: #e67e22;
-                color: white;
-                padding: 10px;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-              "
-            >
-              Kayıt Ol
-            </button>
-            <span class="auth-toggle" onclick="toggleAuthMode()"
-              >Zaten üye misin? Giriş Yap</span
-            >
-          </div>
+      </div>
+      <div id="register-section" style="display:none">
+        <h2 style="font-family:'Playfair Display',serif;text-align:center;margin-bottom:24px;font-size:26px" data-i18n="register">Kayıt Ol</h2>
+        <div class="form-container" style="box-shadow:none;padding:0;margin:0;border:none">
+          <input id="reg-user" placeholder="Kullanıcı Adı" aria-label="Kullanıcı Adı" />
+          <input id="reg-pass" type="password" placeholder="Şifre" aria-label="Şifre" />
+          <button data-action="register" class="btn btn-call" style="width:100%;padding:14px;font-size:15px;background:var(--bg-dark)" data-i18n="register">Kayıt Ol</button>
+          <span class="auth-toggle" data-action="toggle-auth-mode" data-i18n="has_account">Zaten üye misin? Giriş Yap</span>
         </div>
       </div>
     </div>
+  </div>
 
-    <div class="form-container" id="admin-form" style="display: none">
-      <h2 id="form-title">Yeni İlan Ekle</h2>
-      <input id="title" placeholder="İlan Başlığı" />
+  <!-- ADMIN FORM -->
+  <div class="form-container" id="admin-form" style="display:none">
+    <h2 id="form-title" data-i18n="add_listing">Yeni İlan Ekle</h2>
+    <input id="title" placeholder="İlan Başlığı" />
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
       <input id="price" type="number" placeholder="Fiyat (TL)" />
-      <input id="locationInput" placeholder="Konum (Şehir/İlçe)" />
-      <select id="type">
-        <option>Daire</option>
-        <option>Villa</option>
-        <option>Arsa</option>
-        <option>Ofis</option>
-      </select>
-      <input id="image" placeholder="Resim URL (Linkini yapıştırın)" />
-
-      <button
-        onclick="submitForm()"
-        style="background: #27ae60; color: white; width: 100%; padding: 10px"
-      >
-        Yayınla
-      </button>
-      <button
-        onclick="resetForm()"
-        style="
-          background: #95a5a6;
-          color: white;
-          width: 100%;
-          padding: 10px;
-          margin-top: 5px;
-        "
-      >
-        İptal
-      </button>
+      <select id="status"><option value="satilik">Satılık</option><option value="kiralik">Kiralık</option></select>
     </div>
-
-    <div class="controls">
-      <input
-        type="text"
-        id="search-box"
-        placeholder="🔍 Bölge, tip veya başlık ara..."
-        oninput="applyFilters()"
-      />
-      <select id="sort-select" onchange="applyFilters()">
-        <option value="newest">En Yeni</option>
-        <option value="low">En Ucuz</option>
-        <option value="high">En Pahalı</option>
-      </select>
-      <select id="currency-select" onchange="applyFilters()">
-        <option value="TRY">₺ TL</option>
-        <option value="USD">$ USD</option>
-        <option value="EUR">€ EUR</option>
-      </select>
-      <button
-        id="fav-filter-btn"
-        onclick="toggleFavFilter()"
-        style="
-          padding: 10px;
-          background: white;
-          border: 1px solid #ddd;
-          border-radius: 8px;
-          cursor: pointer;
-          color: #555;
-          font-weight: bold;
-        "
-      >
-        ❤️ Favorilerim
-      </button>
+    <input id="locationInput" placeholder="Konum (Şehir / İlçe)" />
+    <select id="type"><option>Daire</option><option>Villa</option><option>Arsa</option><option>Ofis</option></select>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:10px">
+      <input id="bedrooms" type="number" placeholder="🛏 Oda" min="0" />
+      <input id="bathrooms" type="number" placeholder="🚿 Banyo" min="0" />
+      <input id="area_m2" type="number" placeholder="📐 m²" min="0" />
+      <input id="floor_no" placeholder="🏢 Kat" />
     </div>
+    <input id="year_built" type="number" placeholder="📅 Yapım Yılı" min="1900" max="2030" />
+    <textarea id="description" placeholder="İlan açıklaması..." rows="3" style="width:100%;padding:12px 16px;margin-bottom:12px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text-primary);font-family:'DM Sans',sans-serif;font-size:14px;resize:vertical;outline:none"></textarea>
+    <input id="image" type="hidden" />
+    <div id="upload-zone" data-action="upload-zone-click" style="border:2px dashed var(--border);border-radius:12px;padding:28px;text-align:center;cursor:pointer;transition:all 0.3s;margin-bottom:12px;background:var(--bg)">
+      <div id="upload-placeholder"><div style="font-size:36px;margin-bottom:8px">📁</div><div style="font-weight:600;color:var(--text-primary);margin-bottom:4px">Resim yüklemek için tıklayın veya sürükleyin</div><div style="font-size:13px;color:var(--text-light)">JPG, PNG, WebP — Maks 5MB</div></div>
+      <div id="upload-preview" style="display:none"><img id="preview-img" style="max-height:180px;border-radius:8px;margin-bottom:8px" alt="Preview" /><div id="upload-status" style="font-size:13px;color:var(--green);font-weight:600">✓ Yüklendi</div></div>
+    </div>
+    <input type="file" id="file-input" accept="image/*" style="display:none" data-action="file-input-change" />
+    <div style="text-align:center;margin-bottom:12px"><span style="font-size:12px;color:var(--text-light);cursor:pointer;text-decoration:underline" data-action="toggle-url-input">veya URL yapıştır</span></div>
+    <input id="url-input" placeholder="Resim URL yapıştırın" style="display:none;margin-bottom:12px" data-action="url-input-change" />
+    <button data-action="submit-form" class="btn btn-call" style="width:100%;padding:14px;font-size:15px;margin-top:4px" data-i18n="publish">Yayınla</button>
+    <button data-action="reset-form" class="btn btn-outline" style="width:100%;padding:14px;font-size:15px;margin-top:8px" data-i18n="cancel">İptal</button>
+  </div>
 
-    <div id="stats-area"></div>
-    <div id="property-list"></div>
+  <!-- FILTERS -->
+  <div class="controls" id="filter-bar">
+    <div class="filter-row filter-row-top">
+      <div class="filter-cell filter-cell-grow">
+        <label for="status-filter">Durum</label>
+        <select id="status-filter" data-action="filter-change" aria-label="Durum filtresi"><option value="">Tümü</option><option value="satilik">Satılık</option><option value="kiralik">Kiralık</option></select>
+      </div>
+      <div class="filter-cell filter-cell-grow">
+        <label for="type-filter">Tip</label>
+        <select id="type-filter" data-action="filter-change" aria-label="Tip filtresi"><option value="">Tüm Tipler</option><option value="Daire">Daire</option><option value="Villa">Villa</option><option value="Arsa">Arsa</option><option value="Ofis">Ofis</option></select>
+      </div>
+      <div class="filter-cell">
+        <label for="sort-select">Sırala</label>
+        <select id="sort-select" data-action="filter-change" aria-label="Sıralama"><option value="newest">En Yeni</option><option value="low">Fiyat ↑</option><option value="high">Fiyat ↓</option></select>
+      </div>
+      <div class="filter-cell">
+        <label for="currency-select">Para</label>
+        <select id="currency-select" data-action="filter-change" aria-label="Para birimi"><option value="TRY">₺ TL</option><option value="USD">$ USD</option><option value="EUR">€ EUR</option></select>
+      </div>
+      <button id="fav-filter-btn" data-action="toggle-fav-filter" aria-label="Favorileri göster" class="fav-pill">❤️ Favorilerim</button>
+    </div>
+    <div class="filter-row filter-row-bottom">
+      <div class="filter-cell range-cell">
+        <label for="price-min">Min ₺</label>
+        <input type="number" id="price-min" placeholder="0" data-action="filter-input" inputmode="numeric" />
+      </div>
+      <div class="filter-cell range-cell">
+        <label for="price-max">Max ₺</label>
+        <input type="number" id="price-max" placeholder="∞" data-action="filter-input" inputmode="numeric" />
+      </div>
+      <div class="filter-cell range-cell">
+        <label for="bed-min">Min Oda</label>
+        <input type="number" id="bed-min" placeholder="0" data-action="filter-input" inputmode="numeric" min="0" />
+      </div>
+      <div class="filter-cell range-cell">
+        <label for="area-min">Min m²</label>
+        <input type="number" id="area-min" placeholder="0" data-action="filter-input" inputmode="numeric" min="0" />
+      </div>
+      <input type="text" id="search-box" placeholder="🔍 Hızlı ara..." data-action="filter-input" class="filter-search" aria-label="Ara" />
+    </div>
+  </div>
 
-    <div id="detail-modal" class="modal">
-      <div class="modal-content">
-        <span class="close" onclick="closeModal()">×</span>
-        <div id="modal-body"></div>
+  <div id="stats-area"></div>
+  <div class="section-header"><h2 data-i18n="featured">Öne Çıkan İlanlar</h2><p data-i18n="featured_sub">Size özel seçilmiş en güncel portföyler</p></div>
+
+  <!-- SKELETON LOADER -->
+  <div id="skeleton-loader" class="skeleton-grid">
+    <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line thick"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line thick"></div></div></div>
+    <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line thick"></div></div></div>
+  </div>
+
+  <div id="property-list"></div>
+  <div id="pagination-area" class="pagination"></div>
+
+  <!-- EMPTY STATE -->
+  <div id="empty-state" class="empty-state" style="display:none">
+    <div class="empty-icon">🏠</div>
+    <h3 data-i18n="no_results">Sonuç bulunamadı</h3>
+    <p data-i18n="no_results_sub">Filtreleri değiştirmeyi deneyin</p>
+  </div>
+
+  <!-- DETAIL MODAL -->
+  <div id="detail-modal" class="modal" role="dialog" aria-modal="true"><div class="modal-content"><span class="close" data-action="close-modal" aria-label="Kapat">&times;</span><div id="modal-body"></div></div></div>
+
+  <!-- CONFIRM DIALOG -->
+  <div id="confirm-dialog" class="confirm-overlay" style="display:none"></div>
+
+  <!-- WHY CHOOSE US -->
+  <section class="why-us" data-reveal>
+    <div class="section-header section-header-tight">
+      <h2 data-i18n="why_title">Neden Parsa Emlak?</h2>
+      <p data-i18n="why_sub">Yüzlerce ailenin tercih ettiği güvenilir partner</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">🛡️</div>
+        <h3 data-i18n="why_1_t">Güvenli İşlem</h3>
+        <p data-i18n="why_1_p">Her sözleşme avukat onayından geçer.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">👥</div>
+        <h3 data-i18n="why_2_t">Uzman Danışman</h3>
+        <p data-i18n="why_2_p">Bölge tecrübeli emlak ekibi.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">💬</div>
+        <h3 data-i18n="why_3_t">Ücretsiz Keşif</h3>
+        <p data-i18n="why_3_p">İlk görüşme ve ekspertiz bizden.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <h3 data-i18n="why_4_t">7/24 Destek</h3>
+        <p data-i18n="why_4_p">Hafta sonu dahil WhatsApp hattımız açık.</p>
       </div>
     </div>
-    <footer class="site-footer">
-      <div class="footer-container">
-        <div class="footer-section">
-          <h3>📍 Ofisimiz</h3>
-          <p>Cumhuriyet Bulvarı, No: 123</p>
-          <p>Alsancak / İZMİR</p>
-          <p>Hafta içi: 09:00 - 18:00</p>
-        </div>
+  </section>
 
-        <div class="footer-section">
-          <h3>📞 İletişim</h3>
-          <p>Telefon: +90 232 123 45 67</p>
-          <p>WhatsApp: +90 555 123 45 67</p>
-          <p>Email: info@parsaemlak.com</p>
-        </div>
+  <!-- ANIMATED STAT COUNTERS -->
+  <section class="stats-band" data-reveal>
+    <div class="stats-band-inner">
+      <div class="stat-item">
+        <div class="stat-num" data-count-to="500" data-suffix="+">0</div>
+        <div class="stat-label" data-i18n="stat_listings">Portföy</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count-to="240" data-suffix="+">0</div>
+        <div class="stat-label" data-i18n="stat_clients">Mutlu Müşteri</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count-to="15" data-suffix="">0</div>
+        <div class="stat-label" data-i18n="stat_years">Yıllık Tecrübe</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num" data-count-to="98" data-suffix="%">0</div>
+        <div class="stat-label" data-i18n="stat_satisfaction">Memnuniyet</div>
+      </div>
+    </div>
+  </section>
 
-        <div class="footer-section">
-          <h3>🌐 Bizi Takip Edin</h3>
-          <a href="#">📷 Instagram</a>
-          <a href="#">🐦 Twitter (X)</a>
-          <a href="#">📘 Facebook</a>
-          <a href="#">📺 YouTube Kanalımız</a>
+  <!-- TESTIMONIALS -->
+  <section class="testimonials" data-reveal>
+    <div class="section-header section-header-tight">
+      <h2 data-i18n="rev_title">Müşterilerimiz Ne Diyor?</h2>
+      <p data-i18n="rev_sub">Gerçek hikayeler, gerçek deneyimler</p>
+    </div>
+    <div class="testimonial-track" id="testimonial-track">
+      <article class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"Alsancak'ta hayalimdeki daireyi buldum. Süreç boyunca her sorumuza saniyeler içinde yanıt geldi. Şeffaf, dürüst bir ekip."</p>
+        <div class="testimonial-meta">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#c9a96e,#b8923d)">E</div>
+          <div><strong>Ece K.</strong><span>Alsancak · 2+1 Daire</span></div>
+        </div>
+      </article>
+      <article class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"Çeşme'de yazlık ararken Parsa Emlak'a denk geldim. Hem fiyat hem konum konusunda en doğru yönlendirmeyi yaptılar."</p>
+        <div class="testimonial-meta">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#2d8f6f,#1ebe5a)">M</div>
+          <div><strong>Mehmet T.</strong><span>Çeşme · Villa</span></div>
+        </div>
+      </article>
+      <article class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"Yatırım amaçlı arsa alımında detaylı tapu kontrolü ve imar bilgisini özenle hazırladılar. Kesinlikle tavsiye ederim."</p>
+        <div class="testimonial-meta">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#0f3460,#16213e)">A</div>
+          <div><strong>Ayşe D.</strong><span>Urla · Arsa</span></div>
+        </div>
+      </article>
+      <article class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p>"Yurt dışından İzmir'e geri taşınırken her şeyi uzaktan halletmemize yardımcı oldular. Profesyonel bir hizmet."</p>
+        <div class="testimonial-meta">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#d94f4f,#b83232)">B</div>
+          <div><strong>Burcu Y.</strong><span>Karşıyaka · 3+1 Daire</span></div>
+        </div>
+      </article>
+    </div>
+    <div class="testimonial-dots" id="testimonial-dots"></div>
+  </section>
+
+  <!-- POPULAR NEIGHBORHOODS -->
+  <section class="neighborhoods" data-reveal>
+    <div class="section-header section-header-tight">
+      <h2 data-i18n="nbh_title">Popüler Bölgeler</h2>
+      <p data-i18n="nbh_sub">İzmir'in en aranan semtleri</p>
+    </div>
+    <div class="neighborhood-grid">
+      <button class="nbh-card" data-action="quick-search" data-q="Alsancak" style="background-image:url('/uploads/villa1.jpg')">
+        <span class="nbh-name">Alsancak</span>
+        <span class="nbh-count" data-i18n="nbh_explore">Keşfet →</span>
+      </button>
+      <button class="nbh-card" data-action="quick-search" data-q="Karşıyaka" style="background-image:url('/uploads/villa2.jpg')">
+        <span class="nbh-name">Karşıyaka</span>
+        <span class="nbh-count" data-i18n="nbh_explore">Keşfet →</span>
+      </button>
+      <button class="nbh-card" data-action="quick-search" data-q="Bornova" style="background-image:url('/uploads/house1.jpg')">
+        <span class="nbh-name">Bornova</span>
+        <span class="nbh-count" data-i18n="nbh_explore">Keşfet →</span>
+      </button>
+      <button class="nbh-card" data-action="quick-search" data-q="Çeşme" style="background-image:url('/uploads/villa3.jpg')">
+        <span class="nbh-name">Çeşme</span>
+        <span class="nbh-count" data-i18n="nbh_explore">Keşfet →</span>
+      </button>
+      <button class="nbh-card" data-action="quick-search" data-q="Urla" style="background-image:url('/uploads/villa4.jpg')">
+        <span class="nbh-name">Urla</span>
+        <span class="nbh-count" data-i18n="nbh_explore">Keşfet →</span>
+      </button>
+      <button class="nbh-card" data-action="quick-search" data-q="Konak" style="background-image:url('/uploads/villa5.jpg')">
+        <span class="nbh-name">Konak</span>
+        <span class="nbh-count" data-i18n="nbh_explore">Keşfet →</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="newsletter" data-reveal>
+    <div class="newsletter-card">
+      <h2 data-i18n="news_title">Yeni İlanlardan Haberdar Ol</h2>
+      <p data-i18n="news_sub">Haftalık özel portföy bültenimize katılın.</p>
+      <form class="newsletter-form" data-action="newsletter-submit">
+        <input type="email" id="newsletter-email" required placeholder="ornek@email.com" aria-label="Email" />
+        <button type="submit" class="btn btn-call" data-i18n="news_btn">Abone Ol</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- FLOATING ACTIONS -->
+  <a class="float-whatsapp" href="https://wa.me/905551234567" target="_blank" rel="noopener" aria-label="WhatsApp ile yaz" title="WhatsApp ile yaz">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  </a>
+  <button class="back-to-top" id="back-to-top" data-action="scroll-top" aria-label="Yukarı çık">↑</button>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <img src="https://cdn-icons-png.flaticon.com/512/25/25694.png" alt="Logo" class="footer-logo" />
+        <h3>Parsa Emlak</h3>
+        <p data-i18n="footer_brand_p">İzmir'in en güvenilir emlak danışmanlık platformu. Her bütçeye uygun seçenekler.</p>
+        <div class="footer-socials">
+          <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 2.2c3.2 0 3.6 0 4.8.1 1.2.1 1.8.3 2.2.5.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .5 2.2.1 1.2.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 1.2-.3 1.8-.5 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.5-1.2.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-1.2-.1-1.8-.3-2.2-.5-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.5-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-1.2.3-1.8.5-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.5C8.4 2.2 8.8 2.2 12 2.2Zm0 1.8c-3.1 0-3.5 0-4.7.1-1.1.1-1.7.2-2.1.4-.5.2-.9.4-1.2.8-.4.4-.6.7-.8 1.2-.2.4-.3 1-.4 2.1-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1.1.2 1.7.4 2.1.2.5.4.9.8 1.2.4.4.7.6 1.2.8.4.2 1 .3 2.1.4 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1.1-.1 1.7-.2 2.1-.4.5-.2.9-.4 1.2-.8.4-.4.6-.7.8-1.2.2-.4.3-1 .4-2.1.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1.1-.2-1.7-.4-2.1-.2-.5-.4-.9-.8-1.2-.4-.4-.7-.6-1.2-.8-.4-.2-1-.3-2.1-.4-1.2-.1-1.6-.1-4.7-.1Zm0 3.1a4.9 4.9 0 1 1 0 9.8 4.9 4.9 0 0 1 0-9.8Zm0 8.1a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Zm6.3-8.3a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0Z"/></svg></a>
+          <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M18.3 2H21l-6.6 7.6L22 22h-6.1l-4.8-6.3L5.6 22H3l7-8L2 2h6.2l4.3 5.7L18.3 2Zm-1 18.4h1.4L7 3.5H5.5l11.7 16.9Z"/></svg></a>
+          <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M13.5 22v-9h3l.5-3.5h-3.5V7.3c0-1 .3-1.7 1.7-1.7H17V2.4c-.3 0-1.4-.1-2.6-.1-2.5 0-4.3 1.5-4.3 4.3v2.4H7V13h3.1v9h3.4Z"/></svg></a>
+          <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M21.6 7.2a2.5 2.5 0 0 0-1.7-1.8C18.4 5 12 5 12 5s-6.4 0-7.9.4a2.5 2.5 0 0 0-1.7 1.8C2 8.7 2 12 2 12s0 3.3.4 4.8a2.5 2.5 0 0 0 1.7 1.8C5.6 19 12 19 12 19s6.4 0 7.9-.4a2.5 2.5 0 0 0 1.7-1.8c.4-1.5.4-4.8.4-4.8s0-3.3-.4-4.8ZM10 15V9l5.2 3L10 15Z"/></svg></a>
         </div>
       </div>
-
-      <div class="footer-bottom">
-        &copy; 2026 Parsa Emlak. Tüm hakları saklıdır. | Yazılım: Parsa
+      <div class="footer-section">
+        <h3 data-i18n="office">Ofisimiz</h3>
+        <p>Cumhuriyet Bulvarı, No: 123<br/>Alsancak / İZMİR<br/>Hafta içi: 09:00 – 18:00</p>
       </div>
-    </footer>
-    <script>
-      let allHouses = [];
-      let currentUser = null; // Giriş yapan kullanıcı bilgisi
-      let token = null;
-      let editingId = null;
-      let showFavsOnly = false;
-      let rates = { TRY: 1, USD: 30, EUR: 33 };
+      <div class="footer-section">
+        <h3 data-i18n="contact">İletişim</h3>
+        <p>Tel: +90 232 123 45 67<br/>WhatsApp: +90 555 123 45 67<br/>info@parsaemlak.com</p>
+      </div>
+      <div class="footer-section">
+        <h3 data-i18n="quick_links">Hızlı Bağlantılar</h3>
+        <a href="#filter-bar" data-i18n="footer_listings">İlanlar</a>
+        <a href="#" data-i18n="footer_about">Hakkımızda</a>
+        <a href="#" data-i18n="footer_kvkk">KVKK</a>
+        <a href="#" data-i18n="footer_terms">Kullanım Koşulları</a>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Parsa Emlak. <span data-i18n="footer_rights">Tüm hakları saklıdır.</span></div>
+  </footer>
 
-      /* --- AUTH İŞLEMLERİ --- */
-      function openAuthModal() {
-        document.getElementById("auth-modal").style.display = "block";
-      }
-      function closeAuthModal() {
-        document.getElementById("auth-modal").style.display = "none";
-      }
-
-      function toggleAuthMode() {
-        const loginSec = document.getElementById("login-section");
-        const regSec = document.getElementById("register-section");
-        if (loginSec.style.display === "none") {
-          loginSec.style.display = "block";
-          regSec.style.display = "none";
-        } else {
-          loginSec.style.display = "none";
-          regSec.style.display = "block";
-        }
-      }
-
-      async function registerUser() {
-        const u = document.getElementById("reg-user").value;
-        const p = document.getElementById("reg-pass").value;
-        if (!u || !p) return alert("Bilgileri doldurun!");
-
-        const res = await fetch("/api/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username: u, password: p }),
-        });
-        const data = await res.json();
-        alert(data.message);
-        if (res.ok) toggleAuthMode(); // Başarılıysa giriş ekranına dön
-      }
-
-      async function loginUser() {
-        const u = document.getElementById("login-user").value;
-        const p = document.getElementById("login-pass").value;
-
-        const res = await fetch("/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username: u, password: p }),
-        });
-
-        if (!res.ok) return alert("Hatalı kullanıcı adı veya şifre!");
-
-        const data = await res.json();
-        token = data.token;
-        currentUser = { username: data.username, role: data.role };
-
-        closeAuthModal();
-        updateUI();
-      }
-
-      function logout() {
-        token = null;
-        currentUser = null;
-        updateUI();
-      }
-
-      function updateUI() {
-        const area = document.getElementById("user-area");
-        const adminForm = document.getElementById("admin-form");
-
-        if (currentUser) {
-          // Giriş yapılmışsa
-          area.innerHTML = `
-                  <span class="user-badge">👤 ${currentUser.username} (${
-            currentUser.role === "admin" ? "Yönetici" : "Üye"
-          })</span>
-                  <button onclick="logout()" style="background: #c0392b; color: white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold;">Çıkış</button>
-                `;
-
-          // Eğer Admin ise paneli göster
-          if (currentUser.role === "admin") {
-            adminForm.style.display = "block";
-          } else {
-            adminForm.style.display = "none";
-          }
-        } else {
-          // Çıkış yapılmışsa
-          area.innerHTML = `<button onclick="openAuthModal()" id="login-btn" style="background: #34495e; color: white">👤 Giriş / Kayıt</button>`;
-          adminForm.style.display = "none";
-        }
-        applyFilters(); // Listeyi yenile (Admin butonlarını göstermek/gizlemek için)
-      }
-
-      /* --- FAVORİ SİSTEMİ --- */
-      function getFavorites() {
-        const f = localStorage.getItem("myFavorites");
-        return f ? JSON.parse(f) : [];
-      }
-
-      function toggleFavorite(event, id) {
-        event.stopPropagation();
-        let favs = getFavorites();
-        const btn = document.getElementById(`fav-${id}`);
-        if (favs.includes(id)) {
-          favs = favs.filter((favId) => favId !== id);
-          if (btn) {
-            btn.classList.remove("active");
-            btn.innerText = "🤍";
-          }
-        } else {
-          favs.push(id);
-          if (btn) {
-            btn.classList.add("active");
-            btn.innerText = "❤️";
-          }
-        }
-        localStorage.setItem("myFavorites", JSON.stringify(favs));
-        if (showFavsOnly) applyFilters();
-      }
-
-      function toggleFavFilter() {
-        showFavsOnly = !showFavsOnly;
-        const btn = document.getElementById("fav-filter-btn");
-        if (showFavsOnly) {
-          btn.classList.add("active");
-          btn.innerText = "❤️ Tümünü Göster";
-        } else {
-          btn.classList.remove("active");
-          btn.innerText = "❤️ Favorilerim";
-        }
-        applyFilters();
-      }
-
-      /* --- API VE LİSTELEME --- */
-      window.onload = () => {
-        fetchRates();
-        loadProperties();
-      };
-
-      async function fetchRates() {
-        try {
-          const r = await fetch("https://open.er-api.com/v6/latest/TRY");
-          const d = await r.json();
-          if (d && d.rates) {
-            rates.USD = 1 / d.rates.USD;
-            rates.EUR = 1 / d.rates.EUR;
-            applyFilters();
-          }
-        } catch (e) {}
-      }
-
-      async function loadProperties() {
-        const res = await fetch("/api/properties");
-        allHouses = await res.json();
-        applyFilters();
-      }
-
-      function applyFilters() {
-        const s = document.getElementById("search-box").value.toLowerCase();
-        const sort = document.getElementById("sort-select").value;
-        let list = allHouses.filter(
-          (h) =>
-            h.title.toLowerCase().includes(s) ||
-            h.location.toLowerCase().includes(s) ||
-            h.type.toLowerCase().includes(s)
-        );
-
-        if (showFavsOnly) {
-          const favs = getFavorites();
-          list = list.filter((h) => favs.includes(h.id));
-        }
-
-        if (sort === "low") list.sort((a, b) => a.price - b.price);
-        else if (sort === "high") list.sort((a, b) => b.price - a.price);
-        else list.sort((a, b) => b.id - a.id);
-
-        updateStats(list);
-        displayProperties(list);
-      }
-
-      function updateStats(list) {
-        const area = document.getElementById("stats-area");
-        // İstatistikleri sadece Admin görsün istersen: if (!currentUser || currentUser.role !== 'admin' || list.length === 0)
-        // Herkes görsün istersen:
-        if (list.length === 0) {
-          area.innerHTML = "";
-          return;
-        }
-        const max = Math.max(...list.map((h) => h.price));
-        area.innerHTML = `<div class="stats-bar">📊 Toplam: ${
-          list.length
-        } İlan | 💰 Max: ₺${max.toLocaleString()}</div>`;
-      }
-
-      function displayProperties(list) {
-        const container = document.getElementById("property-list");
-        const curr = document.getElementById("currency-select").value;
-        const symbol = curr === "USD" ? "$" : curr === "EUR" ? "€" : "₺";
-
-        if (!rates[curr]) return;
-        const favs = getFavorites();
-        // Admin kontrolü: Giriş yapmış VE rolü admin mi?
-        const isAdmin = currentUser && currentUser.role === "admin";
-
-        container.innerHTML = "";
-        list.forEach((h) => {
-          const p = (h.price / rates[curr]).toLocaleString(undefined, {
-            maximumFractionDigits: 0,
-          });
-          const isFav = favs.includes(h.id);
-
-          container.innerHTML += `
-              <div class="card">
-                  <div id="fav-${h.id}" class="fav-btn ${
-            isFav ? "active" : ""
-          }" onclick="toggleFavorite(event, ${h.id})">
-                      ${isFav ? "❤️" : "🤍"}
-                  </div>
-                  <img src="${h.image}" onclick="openDetail(${
-            h.id
-          })" onerror="this.src='https://placehold.co/400x250?text=Resim+Yok'">
-                  <div class="card-content" onclick="openDetail(${h.id})">
-                      <h3>${h.title}</h3>
-                      <div class="price-tag">${symbol}${p}</div>
-                      <p>📍 ${h.location} | 🏠 ${h.type}</p>
-                  </div>
-
-                  ${
-                    isAdmin
-                      ? `
-                      <div class="admin-btns" style="display:flex; gap:5px; padding:10px; background:#f9f9f9;">
-                          <button onclick="startEdit(${h.id})" style="flex:1; background:#f39c12; color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;">✏️ Düzenle</button>
-                          <button onclick="deleteHouse(${h.id})" style="flex:1; background:#e74c3c; color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;">🗑️ Sil</button>
-                      </div>`
-                      : ""
-                  }
-              </div>`;
-        });
-      }
-
-      /* --- DETAY VE ADMIN FONKSİYONLARI --- */
-      function openDetail(id) {
-        const h = allHouses.find((x) => x.id === id);
-        const myPhone = "905551234567";
-        const whatsappUrl = `https://wa.me/${myPhone}?text=${encodeURIComponent(
-          `Merhaba, Parsa Emlak! "${h.title}" başlıklı ilanınızla ilgileniyorum.`
-        )}`;
-        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-          h.location
-        )}`;
-
-        const modal = document.getElementById("detail-modal");
-        const body = document.getElementById("modal-body");
-
-        body.innerHTML = `
-          <img src="${
-            h.image
-          }" onerror="this.src='https://placehold.co/600x400'">
-          <h2 style="margin-top:15px; margin-bottom:5px;">${h.title}</h2>
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-              <span style="font-size:22px; color:#27ae60; font-weight:bold;">₺${h.price.toLocaleString()}</span>
-              <span style="color:#7f8c8d; font-size:16px;">📍 ${
-                h.location
-              }</span>
-          </div>
-          <div style="background:#f8f9fa; padding:15px; border-radius:8px; margin-bottom:20px; border:1px solid #eee;">
-              <p><strong>🏠 Emlak Tipi:</strong> ${h.type}</p>
-              <p><strong>🆔 İlan No:</strong> #${h.id}</p>
-              <p style="color:#555; line-height:1.5;">Bu portföy Parsa Emlak güvencesiyle sunulmaktadır.</p>
-          </div>
-          <a href="${whatsappUrl}" target="_blank" class="btn-whatsapp">💬 WhatsApp'tan Yaz</a>
-          <a href="${mapUrl}" target="_blank" class="btn-map">🗺️ Konumu Haritada Gör</a>
-          <button onclick="window.location.href='tel:+${myPhone}'" style="background:#34495e; color:white; width:100%; padding:15px; margin-top:10px; border-radius:8px; font-weight:bold; cursor:pointer;">📞 Hemen Ara</button>
-          `;
-        modal.style.display = "block";
-      }
-
-      function closeModal() {
-        document.getElementById("detail-modal").style.display = "none";
-      }
-
-      async function submitForm() {
-        const house = {
-          title: title.value,
-          price: Number(price.value),
-          location: locationInput.value,
-          type: type.value,
-          image: image.value,
-        };
-        const method = editingId ? "PUT" : "POST";
-        const url = editingId
-          ? `/api/properties/${editingId}`
-          : "/api/properties";
-
-        await fetch(url, {
-          method,
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify(house),
-        });
-        resetForm();
-        loadProperties();
-      }
-
-      function startEdit(id) {
-        const h = allHouses.find((x) => x.id === id);
-        title.value = h.title;
-        price.value = h.price;
-        locationInput.value = h.location;
-        type.value = h.type;
-        image.value = h.image;
-        editingId = id;
-        document.getElementById("form-title").innerText = "İlanı Güncelle";
-        window.scrollTo(0, 0);
-        document.getElementById("admin-form").style.display = "block"; // Form kapalıysa aç
-      }
-
-      function resetForm() {
-        title.value = "";
-        price.value = "";
-        locationInput.value = "";
-        image.value = "";
-        editingId = null;
-        document.getElementById("form-title").innerText = "Yeni İlan Ekle";
-      }
-
-      async function deleteHouse(id) {
-        if (!confirm("Silinsin mi?")) return;
-        await fetch(`/api/properties/${id}`, {
-          method: "DELETE",
-          headers: { Authorization: "Bearer " + token },
-        });
-        loadProperties();
-      }
-    </script>
-  </body>
+  <script src="app.js?v=5"></script>
+</body>
 </html>

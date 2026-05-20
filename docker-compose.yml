@@ -1,0 +1,43 @@
+# Local MariaDB for Parsa Emlak.
+# Run from the project root:
+#
+#   docker compose up -d        # start (auto-applies schema.sql the first time)
+#   docker compose logs -f db   # watch logs
+#   docker compose down         # stop (data preserved)
+#   docker compose down -v      # stop AND nuke the database (start fresh)
+#
+# Your Node app keeps running on the host — only the database moved into a container.
+# Make sure WAMP's MariaDB isn't already bound to port 3306 (see notes at bottom).
+
+services:
+  db:
+    image: mariadb:11
+    container_name: parsa-emlak-db
+    restart: unless-stopped
+    environment:
+      # Matches the .env defaults: root user with no password (local dev only).
+      # For shared / remote use, swap to MARIADB_ROOT_PASSWORD and update backend/.env.
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: "yes"
+      MARIADB_DATABASE: emlakdb
+    ports:
+      # Host:container — keeps DB_HOST=127.0.0.1 / DB_NAME=emlakdb in backend/.env working.
+      - "3306:3306"
+    volumes:
+      # Persist data across `docker compose down`. `down -v` removes this volume.
+      - parsa-emlak-data:/var/lib/mysql
+      # Anything in /docker-entrypoint-initdb.d/ is executed ONCE on first DB init.
+      # schema.sql creates `emlakdb`, all tables, and indexes.
+      - ./backend/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      # Migration 001 also runs on first init. New additive migrations: append numbered
+      # files here (02-*.sql, 03-*.sql, …) so they're applied to fresh installs too.
+      - ./backend/db/migrations/001_add_filter_indexes.sql:/docker-entrypoint-initdb.d/02-add-indexes.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+volumes:
+  parsa-emlak-data:
+    name: parsa-emlak-data
