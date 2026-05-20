@@ -65,6 +65,15 @@ body { font-family:'DM Sans',-apple-system,sans-serif; background:var(--bg); col
   background: radial-gradient(ellipse at center, transparent 0%, rgba(15,15,26,0.25) 100%);
   pointer-events: none;
 }
+#hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;     /* clicks pass through to the search box below */
+  z-index: 1;
+}
 .hero-orb {
   position: absolute;
   border-radius: 50%;
@@ -72,6 +81,7 @@ body { font-family:'DM Sans',-apple-system,sans-serif; background:var(--bg); col
   opacity: 0.18;
   pointer-events: none;
   animation: orbFloat 14s ease-in-out infinite;
+  z-index: 0;
 }
 .hero-orb-1 { width: 320px; height: 320px; background: var(--accent); top: -60px; left: -80px; }
 .hero-orb-2 { width: 260px; height: 260px; background: #0f3460; bottom: -50px; right: -60px; animation-delay: -7s; }
@@ -227,8 +237,13 @@ body { font-family:'DM Sans',-apple-system,sans-serif; background:var(--bg); col
               box-shadow 0.3s, border-color 0.3s;
 }
 .card.in-view { opacity: 1; transform: translateY(0); }
-.card:hover { transform: translateY(-6px); box-shadow: var(--shadow-xl); border-color: transparent; }
-.card.in-view:hover { transform: translateY(-6px); }
+/* The hover-lift uses translateZ via the JS tilt so it composes with rotateX/rotateY.
+   No-JS / touch fallback: still a small forward lift via translateY. */
+.card:hover { box-shadow: var(--shadow-xl); border-color: transparent; }
+@media (hover: hover) and (pointer: fine) {
+  .card:hover { transform: translateY(-4px); }
+}
+/* Once the JS tilt has set an inline transform, that takes over. */
 .card-image-wrap { position:relative; overflow:hidden; height:230px; }
 .card-image-wrap img { width:100%; height:100%; object-fit:cover; cursor:pointer; transition:transform 0.5s ease; }
 .card:hover .card-image-wrap img { transform:scale(1.05); }
@@ -550,6 +565,14 @@ body { font-family:'DM Sans',-apple-system,sans-serif; background:var(--bg); col
   transition: transform 0.3s ease;
 }
 .category-card:hover .category-emoji { transform: rotate(-8deg) scale(1.08); }
+
+/* Category mini 3D canvas (replaces emoji when WebGL is available) */
+.category-canvas {
+  width: 96px;
+  height: 96px;
+  display: block;
+  margin: 0 auto;
+}
 .category-label { font-size: 15px; letter-spacing: 0.2px; }
 .category-card.active { border-color: var(--accent); background: var(--accent-glow); }
 
@@ -828,3 +851,53 @@ body { font-family:'DM Sans',-apple-system,sans-serif; background:var(--bg); col
 
 /* Use Inter for body text everywhere for that modern feel */
 body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+/* =========================================================================
+   3D ACCENTS  ·  section-heading "gem" decoration
+   ========================================================================= */
+.section-header h2 { display: inline-flex; align-items: center; gap: 14px; }
+.section-header { text-align: center; }
+.section-header > * { text-align: center; }
+.heading-gem {
+  position: relative;
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  transform-style: preserve-3d;
+  perspective: 120px;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+.heading-gem::before,
+.heading-gem::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+  box-shadow:
+    0 0 20px var(--accent-glow),
+    inset 0 0 6px rgba(255,255,255,0.5);
+  transform-origin: center;
+}
+.heading-gem::before {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  animation: gemSpin 5s linear infinite;
+}
+.heading-gem::after {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  background: linear-gradient(45deg, var(--accent-hover) 0%, #d4b67a 100%);
+  opacity: 0.55;
+  animation: gemSpinReverse 7s linear infinite;
+}
+@keyframes gemSpin {
+  from { transform: rotateY(0deg) rotateZ(45deg); }
+  to   { transform: rotateY(360deg) rotateZ(45deg); }
+}
+@keyframes gemSpinReverse {
+  from { transform: rotateY(0deg) rotateZ(-45deg) scale(0.7); }
+  to   { transform: rotateY(-360deg) rotateZ(-45deg) scale(0.7); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heading-gem::before, .heading-gem::after { animation: none; }
+}

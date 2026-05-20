@@ -11,7 +11,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://parsaemlak.com" />
   <title>Parsa Emlak — Güvenilir Emlak Danışmanlığı</title>
-  <link rel="stylesheet" href="style.css?v=7" />
+  <link rel="stylesheet" href="style.css?v=9" />
   <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/25/25694.png" />
   <link rel="manifest" href="manifest.json" />
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"RealEstateAgent","name":"Parsa Emlak","description":"İzmir'in en güvenilir emlak danışmanlık platformu","address":{"@type":"PostalAddress","streetAddress":"Cumhuriyet Bulvarı, No: 123","addressLocality":"Alsancak","addressRegion":"İzmir","addressCountry":"TR"},"telephone":"+902321234567"}</script>
@@ -32,6 +32,7 @@
   </header>
 
   <section class="hero-section">
+    <canvas id="hero-canvas" aria-hidden="true"></canvas>
     <div class="hero-orb hero-orb-1" aria-hidden="true"></div>
     <div class="hero-orb hero-orb-2" aria-hidden="true"></div>
     <div class="hero-content">
@@ -48,7 +49,7 @@
   <!-- CATEGORY QUICK-FILTERS -->
   <section class="categories" data-reveal>
     <div class="section-header section-header-tight">
-      <h2 data-i18n="cat_title">Kategoriye Göz At</h2>
+      <h2><span class="heading-gem" aria-hidden="true"></span><span data-i18n="cat_title">Kategoriye Göz At</span></h2>
       <p data-i18n="cat_sub">Aradığınız emlak türünü seçin</p>
     </div>
     <div class="category-grid">
@@ -169,7 +170,7 @@
   </div>
 
   <div id="stats-area"></div>
-  <div class="section-header"><h2 data-i18n="featured">Öne Çıkan İlanlar</h2><p data-i18n="featured_sub">Size özel seçilmiş en güncel portföyler</p></div>
+  <div class="section-header"><h2><span class="heading-gem" aria-hidden="true"></span><span data-i18n="featured">Öne Çıkan İlanlar</span></h2><p data-i18n="featured_sub">Size özel seçilmiş en güncel portföyler</p></div>
 
   <!-- SKELETON LOADER -->
   <div id="skeleton-loader" class="skeleton-grid">
@@ -197,7 +198,7 @@
   <!-- WHY CHOOSE US -->
   <section class="why-us" data-reveal>
     <div class="section-header section-header-tight">
-      <h2 data-i18n="why_title">Neden Parsa Emlak?</h2>
+      <h2><span class="heading-gem" aria-hidden="true"></span><span data-i18n="why_title">Neden Parsa Emlak?</span></h2>
       <p data-i18n="why_sub">Yüzlerce ailenin tercih ettiği güvenilir partner</p>
     </div>
     <div class="why-grid">
@@ -249,7 +250,7 @@
   <!-- TESTIMONIALS -->
   <section class="testimonials" data-reveal>
     <div class="section-header section-header-tight">
-      <h2 data-i18n="rev_title">Müşterilerimiz Ne Diyor?</h2>
+      <h2><span class="heading-gem" aria-hidden="true"></span><span data-i18n="rev_title">Müşterilerimiz Ne Diyor?</span></h2>
       <p data-i18n="rev_sub">Gerçek hikayeler, gerçek deneyimler</p>
     </div>
     <div class="testimonial-track" id="testimonial-track">
@@ -292,7 +293,7 @@
   <!-- POPULAR NEIGHBORHOODS -->
   <section class="neighborhoods" data-reveal>
     <div class="section-header section-header-tight">
-      <h2 data-i18n="nbh_title">Popüler Bölgeler</h2>
+      <h2><span class="heading-gem" aria-hidden="true"></span><span data-i18n="nbh_title">Popüler Bölgeler</span></h2>
       <p data-i18n="nbh_sub">İzmir'in en aranan semtleri</p>
     </div>
     <div class="neighborhood-grid">
@@ -374,6 +375,8 @@
     <div class="footer-bottom">&copy; 2026 Parsa Emlak. <span data-i18n="footer_rights">Tüm hakları saklıdır.</span></div>
   </footer>
 
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
+  <script type="module" src="hero3d.js?v=1"></script>
+  <script type="module" src="category3d.js?v=1"></script>
 </body>
 </html>

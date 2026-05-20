@@ -429,6 +429,7 @@
 
     renderPagination();
     observeCards();
+    attachCardTilts();
   }
 
   function renderPagination() {
@@ -750,6 +751,54 @@
       c.style.transitionDelay = `${Math.min(i, 6) * 60}ms`;
       cardObserver.observe(c);
     });
+  }
+
+  // ---------- Card tilt-on-hover (3D parallax following the cursor) ----------
+  // Re-bound after every renderList — innerHTML replaces nodes so old listeners are
+  // gone anyway. Touch input is excluded (tilt makes no sense without a hovering
+  // cursor) and prefers-reduced-motion is honored at the top.
+  const TILT_MAX_DEG = 9;       // maximum rotation in either axis
+  const TILT_LIFT_PX = 8;       // translateZ on tilt to fake forward depth
+  const tiltMotionOk = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function attachCardTilts() {
+    if (!tiltMotionOk) return;
+    document.querySelectorAll("#property-list .card").forEach((card) => {
+      if (card.dataset.tiltBound === "1") return;
+      card.dataset.tiltBound = "1";
+      card.addEventListener("pointerenter", onTiltEnter);
+      card.addEventListener("pointermove", onTiltMove);
+      card.addEventListener("pointerleave", onTiltLeave);
+    });
+  }
+
+  function onTiltEnter(e) {
+    if (e.pointerType !== "mouse") return;
+    const card = e.currentTarget;
+    // Tighten the transition during tilt so movement is responsive,
+    // but keep the default for the release.
+    card.style.transition = "transform 60ms linear, box-shadow 0.3s, border-color 0.3s";
+  }
+
+  function onTiltMove(e) {
+    if (e.pointerType !== "mouse") return;
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    // Normalised cursor offset: -1 (left/top edge) to +1 (right/bottom edge).
+    const nx = ((e.clientX - rect.left) / rect.width  - 0.5) * 2;
+    const ny = ((e.clientY - rect.top)  / rect.height - 0.5) * 2;
+    const rotY = nx * TILT_MAX_DEG;
+    const rotX = -ny * TILT_MAX_DEG;
+    card.style.transform =
+      `perspective(900px) rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg) translateZ(${TILT_LIFT_PX}px)`;
+  }
+
+  function onTiltLeave(e) {
+    if (e.pointerType !== "mouse") return;
+    const card = e.currentTarget;
+    // Smooth, longer transition back to flat — feels like the card settling.
+    card.style.transition = "transform 500ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s, border-color 0.3s";
+    card.style.transform = "";
   }
 
   // ---------- "/" keyboard shortcut: focus the search box ----------
